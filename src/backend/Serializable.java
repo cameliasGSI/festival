@@ -1,6 +1,6 @@
 package backend;
 import java.io.*;
-import javax.swing.JOptionPane;
+import javax.swing.JOptionPane; //guarda todos 
 import javax.swing.UIManager;
 
 public class Serializable {
