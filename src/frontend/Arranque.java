@@ -9,10 +9,13 @@ public class Arranque {
         Festival fest;
         
         fest = new Festival();
-        TelaLogin1 tela = newTelaLogin (fest);
+        Menu menu = new Menu();
+        menu.setLocationRelativeTo(null);
+        menu.setVisible(true);
+        /*TelaLogin1 tela = newTelaLogin (fest);
         tela.setSize(500,400);
         tela.setLocationRelativeTo(null);
-        tela.setVisible(true);
+        tela.setVisible(true);*/
     }
 }
     

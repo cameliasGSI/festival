@@ -11,17 +11,17 @@ private String local;
 private String data;
 private int duraçao;
 private int lotaçao;
-private ArrayList<Bilhete> Bilhetes;
-private ArrayList<Colaborador> Colaboradores; // ou colaboradores pagos e voluntarios???
-private ArrayList<Patrocinio> Patrocinios;
-private ArrayList<GameDesigners> GameDesigners;
+private ArrayList<Bilhete> bilhetes;
+private ArrayList<Colaborador> colaboradores; // ou colaboradores pagos e voluntarios???
+private ArrayList<Patrocinio> patrocinios;
+private ArrayList<GameDesigners> gameDesigners;
 
 
 public Festival(){
-    Bilhetes = new ArrayList<Bilhete>();
-    Colaboradores = new ArrayList<Colaborador>();
-    Patrocinios = new ArrayList<Patrocinio>();
-    GameDesigners = new ArrayList<GameDesigners>();
+    bilhetes = new ArrayList<Bilhete>();
+    colaboradores = new ArrayList<Colaborador>();
+    patrocinios = new ArrayList<Patrocinio>();
+    gameDesigners = new ArrayList<GameDesigners>();
 }
 
 public String getNome(){
@@ -41,13 +41,13 @@ public int getLotaçao(){
     return lotaçao;
 }
 public ArrayList<Colaborador> getColaboradores(){
-    return Colaboradores;
+    return colaboradores;
 }
 public ArrayList<Bilhete> getBilhetes(){
-    return Bilhetes;
+    return bilhetes;
 }
 public ArrayList<Patrocinio> getPatrocinio(){
-    return Patrocinios;
+    return patrocinios;
 }
 public void setNome(String nome){
    this.nome=nome;
@@ -64,11 +64,17 @@ public void setDuraçao(int duraçao){
 public void setLotaçao(int lotaçao){
     this.lotaçao=lotaçao;
 }
-
-
-public void lucro(){
     
-    
-   
+public void imprimePatricinio(){
+    for (Patrocinio p : patrocinios){
+        System.out.println(p);
+    }
 }
+
+public void imprimeGameD(){
+    for(GameDesigners g : gameDesigners){
+        System.out.println(g);
+    }
+}
+    
 }
