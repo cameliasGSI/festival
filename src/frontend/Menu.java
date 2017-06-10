@@ -109,6 +109,11 @@ public class Menu extends JFrame {
         });
 
         jButton4.setText("Novo Patrocinador");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Gerir Bilheteiras");
 
@@ -254,6 +259,7 @@ public class Menu extends JFrame {
         novoFestival.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -266,6 +272,15 @@ public class Menu extends JFrame {
         this.setVisible(false);
         gameDesigner.setVisible(true);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        NovoPatrocinador novoPatrocinador = new NovoPatrocinador(this);
+        novoPatrocinador.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+        novoPatrocinador.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
 
     /**
      * @param args the command line arguments
