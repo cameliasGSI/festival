@@ -2,31 +2,31 @@ package backend;
 
 public class ColaboradorPago extends Colaborador{
     
-    private int NIF;
-    private float Pagamento;
+    private int nif;
+    private double pagamento;
     
-public ColaboradorPago(String nome, String morada, String funcao, int telefone, int NIF, float Pagamento){
+public ColaboradorPago(String nome, String morada, String funcao, int telefone, int nif, double pagamento){
     super(nome, morada, funcao, telefone);
-    this.NIF=NIF;
-    this.Pagamento=Pagamento;
+    this.nif = nif;
+    this.pagamento = pagamento;
 }
     
 //Seletores
-public float getPagamento(){
-  return Pagamento;  
+public double getPagamento(){
+  return pagamento;  
 }
 
-public int getNIF(){
-  return NIF;
+public int getNif(){
+  return nif;
 }
 
 //modificadores
 
-public void setNIF(int NIF){
-    this.NIF=NIF;
+public void setNif(int nif){
+    this.nif = nif;
 }
     
-public void setPagamento(float Pagamento){
-    this.Pagamento=Pagamento;
+public void setPagamento(double pagamento){
+    this.pagamento = pagamento;
 }
 }

@@ -1,11 +1,13 @@
 package backend;
 
+import java.util.Date;
+
 public class Bilhete {
-    private String data;
+    private Date data;
     private int numero;
     private double preco;
     
-    public Bilhete(String data, int numero,double preco){
+    public Bilhete(Date data, int numero,double preco){
         this.data=data;
         this.numero=numero;
         this.preco=preco;
@@ -13,7 +15,7 @@ public class Bilhete {
     
     
     // Seletores 
-    public String getData(){
+    public Date getData(){
         return data;
     }
     public int getNumero(){
@@ -23,7 +25,7 @@ public class Bilhete {
         return preco;
     }
     
-    public void setData(String data){
+    public void setData(Date data){
         this.data=data;
     }
     public void setNumero(int numero){

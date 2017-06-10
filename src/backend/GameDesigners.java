@@ -1,21 +1,21 @@
 
 package backend;
 
+import java.util.Date;
+
 
 
 public class GameDesigners {
     private String nome;
     private int telefone;
     private int cache;
-    private String dia;    // Dia e hora da sessao
-    private String hora;
+    private Date diaHora;
 
-    public GameDesigners(String nome, int telefone, int cache, String dia, String hora) {
+    public GameDesigners(String nome, int telefone, int cache, Date diaHora) {
         this.nome = nome;
         this.telefone = telefone;
         this.cache = cache;
-        this.dia = dia;
-        this.hora = hora;
+        this.diaHora = diaHora;
     }
       
 
@@ -43,21 +43,11 @@ public class GameDesigners {
         this.cache = cache;
     }
 
-    public String getDia() {
-        return dia;
+    public Date getDiaHora() {
+        return diaHora;
     }
 
-    public void setDia(String dia) {
-        this.dia = dia;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-    
-    
+    public void setDiaHora(Date diaHora) {
+        this.diaHora = diaHora;
+    }    
 }

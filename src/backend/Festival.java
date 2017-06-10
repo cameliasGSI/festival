@@ -2,13 +2,14 @@ package backend;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Festival implements java.io.Serializable {
 
     
 private String nome;
 private String local;
-private String data;
+private Date data;
 private int duraçao;
 private int lotaçao;
 private ArrayList<Bilhete> bilhetes;
@@ -31,7 +32,7 @@ public String getNome(){
 public String getLocal(){
     return local;
 }
-public String getData(){
+public Date getData(){
     return data;
 }
 public int getDuraçao(){
@@ -50,19 +51,19 @@ public ArrayList<Patrocinio> getPatrocinio(){
     return patrocinios;
 }
 public void setNome(String nome){
-   this.nome=nome;
+   this.nome = nome;
 }
 public void setLocal(String local){
-    this.local=local;
+    this.local = local;
 }
-public void setData(String Data){
-    this.data=data;
+public void setData(Date data){
+    this.data = data;
 }
 public void setDuraçao(int duraçao){
-    this.duraçao=duraçao;
+    this.duraçao = duraçao;
 }
 public void setLotaçao(int lotaçao){
-    this.lotaçao=lotaçao;
+    this.lotaçao = lotaçao;
 }
     
 public void imprimePatricinio(){

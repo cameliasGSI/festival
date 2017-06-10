@@ -1,28 +1,29 @@
 package backend;
 
 public class Patrocinio {
-    private String Patrocinador;
-    private float Contribuicao;
+    private String patrocinador;
+    private double contribuicao;
     
-    public Patrocinio(String Patrocinador, float Contribuiçao){
-        this.Patrocinador=Patrocinador;
-        this.Contribuicao=Contribuicao;
+    public Patrocinio(String patrocinador, double contribuicao){
+        this.patrocinador = patrocinador;
+        this.contribuicao = contribuicao;
     }
     
     public String getPatrocinador(){
-        return Patrocinador;
+        return patrocinador;
     }
-    public float getContribuicao(){
-        return Contribuicao;
+    public double getContribuicao(){
+        return contribuicao;
     }
-    public void setPatrocinador(String Patrocinador){
-        this.Patrocinador=Patrocinador;
+    public void setPatrocinador(String patrocinador){
+        this.patrocinador = patrocinador;
     }
-    public void setContribuicao(float Contribuicao){
-        this.Contribuicao=Contribuicao;
+    public void setContribuicao(double contribuicao){
+        this.contribuicao = contribuicao;
     }
     
+    @Override
     public String toString(){
-        return "Patrocinio:" + "\n Nome do Patricinador: " + Patrocinador + "\n Valor da Contribuicao: " + Contribuicao; 
+        return "Patrocinio:" + "\n Nome do Patricinador: " + patrocinador + "\n Valor da Contribuicao: " + contribuicao; 
     }
 }

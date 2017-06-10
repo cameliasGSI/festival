@@ -33,12 +33,13 @@ public void setMorada(String morada){
     this.morada=morada;
 }
 public void setFuncao(String funcao){
-this.funcao=funcao;    
+    this.funcao=funcao;    
 }
-public void setTelefone(int Telefone){
-this.telefone=telefone;    
+public void setTelefone(int telefone){
+    this.telefone=telefone;    
 }
 
+@Override
 public String toString(){
     return "Dados do colaborador" + "\n nome: " + nome + "\n telefone: " + telefone + "\n morada:" + morada +  "\n funcao: "  + funcao;
  }
