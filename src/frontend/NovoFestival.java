@@ -16,7 +16,8 @@ import javax.swing.JFrame;
 public class NovoFestival extends JFrame {
     
     private Menu anterior;
-    private List<Festival> fest;
+    private List<Festival> festivais;
+    private Festival festival;
 
     /**
      * Creates new form NovoFestival
@@ -35,7 +36,24 @@ public class NovoFestival extends JFrame {
     public NovoFestival(Menu menu, List<Festival> fest) {
         initComponents();
         this.anterior = menu;
-        this.fest = fest;
+        this.festivais = fest;
+    }
+    
+    public NovoFestival(Menu menu, List<Festival> fest, Festival festival) {
+        initComponents();
+        this.anterior = menu;
+        this.festivais = fest;
+        this.festival = festival;
+        
+        preencheFestival();
+    }
+    
+    public void preencheFestival() {
+        nomeInput.setText(festival.getNome());
+        localInput.setText(festival.getLocal());
+        dataInicialInput.setDate(festival.getDataInicio());
+        dataFinalInput.setDate(festival.getDataFim());
+        limiteInput.setText("" + festival.getLotacao());
     }
     
     public void setAnterior(Menu menu) {        
@@ -219,7 +237,16 @@ public class NovoFestival extends JFrame {
 
     private void guardarFestivalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarFestivalActionPerformed
         
-        Festival festival = new Festival();
+        Festival festival;
+        
+        //estamos a atualizar ou criar?
+        if (this.festival != null) {
+            festival = this.festival;
+        }
+        else {
+            festival = new Festival();
+        }
+        
         festival.setNome(nomeInput.getText());
         festival.setLocal(localInput.getText());
         festival.setDataInicio(dataInicialInput.getDate());
@@ -236,7 +263,10 @@ public class NovoFestival extends JFrame {
         
         festival.setLotacao(lotacao);
         
-        fest.add(festival);
+        //Se é atualização não adiciona ao arraylist porque ja la está
+        if (this.festival == null) {
+            festivais.add(festival);
+        }
         
         anterior.refreshListaFestivais();
         
