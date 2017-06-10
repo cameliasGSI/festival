@@ -115,6 +115,11 @@ public class Menu extends JFrame {
         });
 
         jButton5.setText("Gerir Bilheteiras");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -249,14 +254,14 @@ public class Menu extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
         NovoFestival novoFestival = new NovoFestival(this);
         novoFestival.setLocationRelativeTo(null);
         
         this.setVisible(false);
         novoFestival.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed                                      
+    }                                                                              
 
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -283,6 +288,14 @@ public class Menu extends JFrame {
         this.setVisible(false);
         novoPatrocinador.setVisible(true);
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        GestaoBilhetes novoGerirBilhetes = new GestaoBilhetes(this);
+        novoGerirBilhetes.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+        novoGerirBilhetes.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
 
 
