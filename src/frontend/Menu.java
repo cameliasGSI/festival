@@ -6,6 +6,7 @@
 package frontend;
 
 import backend.Festival;
+import backend.Serializable;
 import java.awt.TextComponent;
 import java.util.List;
 import javax.swing.DefaultListModel;
@@ -43,6 +44,10 @@ public class Menu extends JFrame {
         }
         
         listaFestivaisView.setModel(model);
+    }
+    
+    public void terminar() {
+        Arranque.terminar(fest);
     }
     
     public Menu(JFrame anterior) {
@@ -97,6 +102,14 @@ public class Menu extends JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jTabbedPane1.setMaximumSize(new java.awt.Dimension(800, 600));
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -339,7 +352,7 @@ public class Menu extends JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addContainerGap()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
                 .addGap(26, 26, 26))
         );
@@ -399,6 +412,14 @@ public class Menu extends JFrame {
     private void ComboBoxGDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxGDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboBoxGDActionPerformed
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        terminar();
+    }//GEN-LAST:event_formWindowClosing
 
 
 
