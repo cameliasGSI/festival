@@ -66,16 +66,67 @@ public void setLotaçao(int lotaçao){
     this.lotaçao = lotaçao;
 }
     
+//4
 public void imprimePatricinio(){
     for (Patrocinio p : patrocinios){
         System.out.println(p);
     }
 }
 
+
+//5
 public void imprimeGameD(){
     for(GameDesigners g : gameDesigners){
         System.out.println(g);
     }
 }
     
+//6
+public void listaColaboradores(){
+    for(Colaborador c : colaboradores){
+//        System.out.println(c + "   " +c.pagoVoluntario() );
+    }
+        
+}
+
+//tenho que criar o metudo Pago_voluntario mas tenho que mudar umas coisas
+// public Colaborador pagoVoluntario(Colaborador c){
+//  private string d;
+//    if(c not exists ColaboradorPago){
+//          d = "Voluntario"}
+//         else{ d = "Pago"}
+//      return d
+//     }
+
+
+//7
+//public Colaborador infoC(Colaborador c){
+//    System.out.println(c.pagoVoluntario() + "   " + c.getFuncao());
+//}
+
+
+
+
+//8
+
+public void nGameDeSigners(){
+    System.out.println("Existem neste festival" + " " + " " + gameDesigners.size() + " " + "game designers contratados");
+}
+
+//o 9 e o 10 nao sei fazer temos de ver
+
+
+
+//11
+
+public void nBilhetes(){
+    System.out.println("Forma comprados" + "  " + "colaboradores.size() " +  "   " + "bilhetes ");
+    
+}
+
+
+
+
+
+
 }
