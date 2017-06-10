@@ -30,14 +30,19 @@ public class Menu extends JFrame {
     public Menu(List<Festival> festivais) {
         initComponents();
         
-        DefaultListModel<String> model = new DefaultListModel<>();
         this.fest = festivais;
+        
+        refreshListaFestivais();
+    }
+    
+    public void refreshListaFestivais() {
+        DefaultListModel<String> model = new DefaultListModel<>();
         
         for (Festival festival : fest) {
             model.addElement(festival.getNome());
         }
         
-        listaFestivais.setModel(model);
+        listaFestivaisView.setModel(model);
     }
     
     public Menu(JFrame anterior) {
@@ -59,7 +64,6 @@ public class Menu extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jMenu1 = new javax.swing.JMenu();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -71,7 +75,7 @@ public class Menu extends JFrame {
         jButton5 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaFestivais = new javax.swing.JList<>();
+        listaFestivaisView = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -143,22 +147,18 @@ public class Menu extends JFrame {
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(305, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Menu", jPanel2);
         jPanel2.getAccessibleContext().setAccessibleName("");
 
-        listaFestivais.setModel(new javax.swing.AbstractListModel<String>() {
+        listaFestivaisView.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listaFestivais, org.jdesktop.beansbinding.ObjectProperty.create(), listaFestivais, org.jdesktop.beansbinding.BeanProperty.create("elements"));
-        bindingGroup.addBinding(binding);
-
-        jScrollPane1.setViewportView(listaFestivais);
+        jScrollPane1.setViewportView(listaFestivaisView);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -173,7 +173,7 @@ public class Menu extends JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -187,7 +187,7 @@ public class Menu extends JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGap(0, 366, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Colaboradores", jPanel3);
@@ -200,7 +200,7 @@ public class Menu extends JFrame {
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGap(0, 366, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Game Designers", jPanel4);
@@ -213,7 +213,7 @@ public class Menu extends JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGap(0, 366, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Patrocinadores", jPanel5);
@@ -226,7 +226,7 @@ public class Menu extends JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGap(0, 366, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Bilhetes", jPanel6);
@@ -240,23 +240,21 @@ public class Menu extends JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(704, 704, 704))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
-        NovoFestival novoFestival = new NovoFestival(this);
+        NovoFestival novoFestival = new NovoFestival(this, fest);
         novoFestival.setLocationRelativeTo(null);
         
         this.setVisible(false);
         novoFestival.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed                                      
+    }                                                                              
 
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -336,7 +334,6 @@ public class Menu extends JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JList<String> listaFestivais;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
+    private javax.swing.JList<String> listaFestivaisView;
     // End of variables declaration//GEN-END:variables
 }
