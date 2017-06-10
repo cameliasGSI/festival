@@ -80,7 +80,6 @@ public class Menu extends JFrame {
         jMenu1.setText("jMenu1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jTabbedPane1.setMaximumSize(new java.awt.Dimension(800, 600));
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(800, 600));
@@ -95,6 +94,11 @@ public class Menu extends JFrame {
         });
 
         jButton2.setText("Novo Colaborador");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Novo Game Designer");
 
@@ -112,9 +116,9 @@ public class Menu extends JFrame {
                     .addComponent(jButton5)
                     .addComponent(jButton4)
                     .addComponent(jButton3)
-                    .addComponent(jButton2)
-                    .addComponent(jButton1))
-                .addContainerGap(537, Short.MAX_VALUE))
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap(596, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -129,7 +133,7 @@ public class Menu extends JFrame {
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addContainerGap(305, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Menu", jPanel2);
@@ -243,6 +247,16 @@ public class Menu extends JFrame {
         this.setVisible(false);
         novoFestival.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Colaborador colaborador = new Colaborador(this);
+        colaborador.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+        colaborador.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
