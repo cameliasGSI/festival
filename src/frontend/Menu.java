@@ -6,11 +6,16 @@
 package frontend;
 
 import backend.Festival;
-import backend.Serializable;
-import java.awt.TextComponent;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.List;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -37,13 +42,54 @@ public class Menu extends JFrame {
     }
     
     public void refreshListaFestivais() {
-        DefaultListModel<String> model = new DefaultListModel<>();
+        DefaultTableModel model = new DefaultTableModel();
+
+        //duas ultimas colunas sao botao editar e instancia do festival
+        String[] cols = {"Nome","Local", "Data inicio", "Data fim", "Lotação", "", ""};
+        model.setColumnIdentifiers(cols);
         
         for (Festival festival : fest) {
-            model.addElement(festival.getNome());
+            
+            Object[] valores = { 
+                festival.getNome(), 
+                festival.getLocal(),
+                festival.getDataInicio().toString(),
+                festival.getDataFim().toString(),
+                festival.getLotacao(),
+                "editar",
+                festival
+            };
+            model.addRow(valores);
         }
         
-        listaFestivaisView.setModel(model);
+        Action edit = new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf( e.getActionCommand() );
+                Festival editar = (Festival)((DefaultTableModel)table.getModel()).getValueAt(modelRow, 6);
+                editarFestival(editar);
+            }
+        };
+        
+        festivaisTable.setModel(model);
+        
+        //esconder coluna com a instancia
+        festivaisTable.getColumnModel().getColumn(6).setWidth(0);
+        festivaisTable.getColumnModel().getColumn(6).setMinWidth(0);
+        festivaisTable.getColumnModel().getColumn(6).setMaxWidth(0);
+        
+        ButtonColumn buttonColumn = new ButtonColumn(festivaisTable, edit, 5);
+        buttonColumn.setMnemonic(KeyEvent.VK_D);
+    }
+    
+    private void editarFestival(Festival festival) {
+        NovoFestival novoFestival = new NovoFestival(this, fest, festival);
+        novoFestival.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+        novoFestival.setVisible(true);
     }
     
     public void terminar() {
@@ -79,8 +125,8 @@ public class Menu extends JFrame {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        listaFestivaisView = new javax.swing.JList<>();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        festivaisTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         ColaboradoresLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -178,34 +224,37 @@ public class Menu extends JFrame {
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(105, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Menu", jPanel2);
         jPanel2.getAccessibleContext().setAccessibleName("");
 
-        listaFestivaisView.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(listaFestivaisView);
+        festivaisTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        festivaisTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(festivaisTable);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Festivais", jPanel1);
@@ -243,7 +292,7 @@ public class Menu extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -287,7 +336,7 @@ public class Menu extends JFrame {
                 .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(140, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Patrocinadores", jPanel5);
@@ -300,7 +349,7 @@ public class Menu extends JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 382, Short.MAX_VALUE)
+            .addGap(0, 410, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Bilhetes", jPanel6);
@@ -342,7 +391,7 @@ public class Menu extends JFrame {
                 .addComponent(ComboBoxGD, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(GameDesignersLista, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Game Designers", jPanel4);
@@ -358,9 +407,7 @@ public class Menu extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
         );
 
         pack();
@@ -470,6 +517,7 @@ public class Menu extends JFrame {
     private javax.swing.JLabel PFEStivalLabel;
     private javax.swing.JComboBox<String> PatrocinioComboBox1;
     private javax.swing.JLabel PtextoLabel1;
+    private javax.swing.JTable festivaisTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -482,11 +530,10 @@ public class Menu extends JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JList<String> listaFestivaisView;
     private javax.swing.JList<String> patrocinadoresList;
     // End of variables declaration//GEN-END:variables
 }
