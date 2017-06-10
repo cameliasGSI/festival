@@ -2,7 +2,6 @@ package frontend;
 
 import backend.Festival;
 import backend.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Arranque {
