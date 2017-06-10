@@ -35,9 +35,9 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               <Component id="jTabbedPane1" pref="751" max="32767" attributes="0"/>
-              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -232,7 +232,7 @@
                           <Component id="jScrollPane2" max="32767" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="ColaboradoresLabel" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
+                                  <Component id="ColaboradoresLabel" min="-2" pref="109" max="-2" attributes="0"/>
                                   <Component id="ComboBoxColaboradores" alignment="0" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="625" max="32767" attributes="0"/>
@@ -245,11 +245,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="ComboBoxColaboradores" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                       <Component id="ColaboradoresLabel" min="-2" pref="27" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="278" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="ComboBoxColaboradores" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" pref="281" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -327,7 +327,6 @@
                       </Group>
                       <EmptySpace pref="78" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="0" pref="746" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
@@ -437,8 +436,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="GameDesignersLista" alignment="0" min="-2" pref="412" max="-2" attributes="0"/>
-                          <Component id="LabelGD" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
                           <Component id="ComboBoxGD" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
+                          <Component id="GDlabel" alignment="0" min="-2" pref="118" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="322" max="32767" attributes="0"/>
                   </Group>
@@ -447,11 +446,11 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                      <Component id="GDlabel" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="ComboBoxGD" min="-2" pref="22" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="LabelGD" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="GameDesignersLista" min="-2" pref="251" max="-2" attributes="0"/>
                       <EmptySpace pref="49" max="32767" attributes="0"/>
                   </Group>
@@ -502,13 +501,10 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JTextField" name="LabelGD">
+            <Component class="javax.swing.JLabel" name="GDlabel">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Game Designers:"/>
               </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="LabelGDActionPerformed"/>
-              </Events>
             </Component>
           </SubComponents>
         </Container>
