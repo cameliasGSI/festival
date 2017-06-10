@@ -30,14 +30,19 @@ public class Menu extends JFrame {
     public Menu(List<Festival> festivais) {
         initComponents();
         
-        DefaultListModel<String> model = new DefaultListModel<>();
         this.fest = festivais;
+        
+        refreshListaFestivais();
+    }
+    
+    public void refreshListaFestivais() {
+        DefaultListModel<String> model = new DefaultListModel<>();
         
         for (Festival festival : fest) {
             model.addElement(festival.getNome());
         }
         
-        listaFestivais.setModel(model);
+        listaFestivaisView.setModel(model);
     }
     
     public Menu(JFrame anterior) {
@@ -59,7 +64,6 @@ public class Menu extends JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
         jMenu1 = new javax.swing.JMenu();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -71,7 +75,7 @@ public class Menu extends JFrame {
         jButton5 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listaFestivais = new javax.swing.JList<>();
+        listaFestivaisView = new javax.swing.JList<>();
         jPanel3 = new javax.swing.JPanel();
         ColaboradoresLabel = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -167,16 +171,12 @@ public class Menu extends JFrame {
         jTabbedPane1.addTab("Menu", jPanel2);
         jPanel2.getAccessibleContext().setAccessibleName("");
 
-        listaFestivais.setModel(new javax.swing.AbstractListModel<String>() {
+        listaFestivaisView.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, listaFestivais, org.jdesktop.beansbinding.ObjectProperty.create(), listaFestivais, org.jdesktop.beansbinding.BeanProperty.create("elements"));
-        bindingGroup.addBinding(binding);
-
-        jScrollPane1.setViewportView(listaFestivais);
+        jScrollPane1.setViewportView(listaFestivaisView);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -345,17 +345,17 @@ public class Menu extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         
-        NovoFestival novoFestival = new NovoFestival(this);
+        NovoFestival novoFestival = new NovoFestival(this, fest);
         novoFestival.setLocationRelativeTo(null);
         
         this.setVisible(false);
@@ -465,8 +465,7 @@ public class Menu extends JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JList<String> listaFestivais;
+    private javax.swing.JList<String> listaFestivaisView;
     private javax.swing.JList<String> patrocinadoresList;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }

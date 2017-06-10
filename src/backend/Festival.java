@@ -9,9 +9,9 @@ public class Festival implements java.io.Serializable {
     
 private String nome;
 private String local;
-private Date data;
-private int duraçao;
-private int lotaçao;
+private Date dataInicio;
+private Date dataFim;
+private int lotacao;
 private ArrayList<Bilhete> bilhetes;
 private ArrayList<Colaborador> colaboradores; // ou colaboradores pagos e voluntarios???
 private ArrayList<Patrocinio> patrocinios;
@@ -32,14 +32,14 @@ public String getNome(){
 public String getLocal(){
     return local;
 }
-public Date getData(){
-    return data;
+public Date getDataInicio(){
+    return dataInicio;
 }
-public int getDuraçao(){
-    return duraçao;
+public Date getDataFim(){
+    return dataFim;
 }
-public int getLotaçao(){
-    return lotaçao;
+public int getLotacao(){
+    return lotacao;
 }
 public ArrayList<Colaborador> getColaboradores(){
     return colaboradores;
@@ -56,14 +56,14 @@ public void setNome(String nome){
 public void setLocal(String local){
     this.local = local;
 }
-public void setData(Date data){
-    this.data = data;
+public void setDataInicio(Date dataInicio){
+    this.dataInicio = dataInicio;
 }
-public void setDuraçao(int duraçao){
-    this.duraçao = duraçao;
+public void setDataFim(Date dataFim){
+    this.dataFim = dataFim;
 }
-public void setLotaçao(int lotaçao){
-    this.lotaçao = lotaçao;
+public void setLotacao(int lotacao){
+    this.lotacao = lotacao;
 }
     
 //4
