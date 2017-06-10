@@ -224,7 +224,6 @@ public class Menu extends JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 366, Short.MAX_VALUE)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,16 +236,6 @@ public class Menu extends JFrame {
 
         jTabbedPane1.addTab("Colaboradores", jPanel3);
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 779, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 366, Short.MAX_VALUE)
-        );
         PFEStivalLabel.setText("Festivais:");
 
         PatrocinioComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -273,11 +262,9 @@ public class Menu extends JFrame {
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(78, Short.MAX_VALUE))
-            .addGap(0, 746, Short.MAX_VALUE)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 366, Short.MAX_VALUE)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(PFEStivalLabel)
@@ -300,7 +287,6 @@ public class Menu extends JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-
             .addGap(0, 382, Short.MAX_VALUE)
         );
 
@@ -364,7 +350,6 @@ public class Menu extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
                 .addContainerGap())
@@ -463,9 +448,6 @@ public class Menu extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel PFEStivalLabel;
-    private javax.swing.JComboBox<String> PatrocinioComboBox1;
-    private javax.swing.JLabel PtextoLabel1;
     private javax.swing.JLabel ColaboradoresLabel;
     private javax.swing.JList<String> ColaboradoresList;
     private javax.swing.JComboBox<String> ComboBoxColaboradores;
@@ -473,6 +455,9 @@ public class Menu extends JFrame {
     private javax.swing.JScrollPane GameDesignersLista;
     private javax.swing.JTextField LabelGD;
     private javax.swing.JList<String> ListGD;
+    private javax.swing.JLabel PFEStivalLabel;
+    private javax.swing.JComboBox<String> PatrocinioComboBox1;
+    private javax.swing.JLabel PtextoLabel1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -491,6 +476,5 @@ public class Menu extends JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JList<String> listaFestivaisView;
     private javax.swing.JList<String> patrocinadoresList;
-    private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
 }
