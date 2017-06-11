@@ -8,9 +8,12 @@ import java.util.Date;
 public class GameDesigners implements java.io.Serializable {
     private String nome;
     private int telefone;
-    private int cache;
+    private double cache;
     private Date diaHora;
 
+    public GameDesigners() {
+    }
+    
     public GameDesigners(String nome, int telefone, int cache, Date diaHora) {
         this.nome = nome;
         this.telefone = telefone;
@@ -35,11 +38,11 @@ public class GameDesigners implements java.io.Serializable {
         this.telefone = telefone;
     }
 
-    public int getCache() {
+    public double getCache() {
         return cache;
     }
 
-    public void setCache(int cache) {
+    public void setCache(double cache) {
         this.cache = cache;
     }
 

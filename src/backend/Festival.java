@@ -50,6 +50,11 @@ public class Festival implements java.io.Serializable {
     public ArrayList<Patrocinio> getPatrocinio(){
         return patrocinios;
     }
+    
+    public ArrayList<GameDesigners> getGameDesigners(){
+        return gameDesigners;
+    }
+    
     public void setNome(String nome){
        this.nome = nome;
     }
