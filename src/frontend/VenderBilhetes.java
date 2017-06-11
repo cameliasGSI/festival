@@ -7,8 +7,10 @@ package frontend;
 
 import backend.Bilhete;
 import backend.Festival;
+import java.util.Calendar;
 import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -137,7 +139,13 @@ public class VenderBilhetes extends javax.swing.JFrame {
             int max = festival.getLotacao();
             int current = festival.getBilhetes().size();
             
-            if (dia.after(festival.getDataInicio()) && dia.before(festival.getDataFim())) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(festival.getDataFim());
+            cal.add(Calendar.DATE, 1);
+            Date fim = cal.getTime();
+            Date inicio = festival.getDataInicio();
+            
+            if (dia.after(inicio) && dia.before(fim)) {
                 if ((quantidade + current) <= max) {
                     for (int i = 0; i < quantidade; i++) {
                         Bilhete bilhete = new Bilhete(dia, festival.getBilhetes().size() + 1, festival.getPreco());
@@ -146,7 +154,16 @@ public class VenderBilhetes extends javax.swing.JFrame {
                     
                     voltar();
                 }
+                else {
+                    JOptionPane.showMessageDialog(this, "Ultrapassa a lotação maxima\nApenas pode comprar " + (max - current));
+                }
             }
+            else {
+                JOptionPane.showMessageDialog(this, "Deve estár dentro do periodo do festival");
+            }
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Deve conter uma quantidade e um dia");
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
