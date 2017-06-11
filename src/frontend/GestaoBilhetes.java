@@ -77,9 +77,17 @@ public class GestaoBilhetes extends javax.swing.JFrame {
     
     private void atualizarPreco() {
         Festival selecionado = (Festival) comboBoxGestaoBilhetes.getSelectedItem();
+        double preco = 0;
         
         if (selecionado != null) {
-            int preco = (Integer)precoBilheteInput.getValue();
+            Object obj = precoBilheteInput.getValue();
+            
+            if (obj instanceof Integer) {
+                preco = ((Integer) obj).doubleValue();
+            }
+            else if (obj instanceof Double) {
+                preco = ((Double) obj).doubleValue();
+            }
             selecionado.setPreco(preco);
             
         }
