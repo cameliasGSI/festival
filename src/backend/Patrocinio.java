@@ -4,6 +4,9 @@ public class Patrocinio implements java.io.Serializable {
     private String patrocinador;
     private double contribuicao;
     
+    public Patrocinio() {
+    }
+    
     public Patrocinio(String patrocinador, double contribuicao){
         this.patrocinador = patrocinador;
         this.contribuicao = contribuicao;

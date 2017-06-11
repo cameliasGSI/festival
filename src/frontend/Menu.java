@@ -8,6 +8,7 @@ package frontend;
 import backend.Festival;
 import backend.Colaborador;
 import backend.ColaboradorPago;
+import backend.Patrocinio;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
@@ -46,6 +47,8 @@ public class Menu extends JFrame {
         this.fest = festivais;
         
         refreshListaFestivais();
+        refreshListaColaboradores();
+        refreshListaPatrocinadores();
     }
     
     public Menu(JFrame anterior) {
@@ -103,6 +106,7 @@ public class Menu extends JFrame {
         ComboBoxModel comboModel = new DefaultComboBoxModel(fest.toArray());
         
         ComboBoxColaboradores.setModel(comboModel);
+        comboBoxPatrocinadores.setModel(comboModel);
     }
     
     public void refreshListaColaboradores() {
@@ -157,6 +161,48 @@ public class Menu extends JFrame {
         buttonColumn.setMnemonic(KeyEvent.VK_D);
     }
     
+    public void refreshListaPatrocinadores() {
+        Festival selecionado = (Festival) comboBoxPatrocinadores.getSelectedItem();
+        DefaultTableModel model = new DefaultTableModel();
+
+        //duas ultimas colunas sao botao editar e instancia do festival
+        String[] cols = {"Nome","Contribuiçao", "", ""};
+        model.setColumnIdentifiers(cols);
+        
+        for (Patrocinio patrocinio : selecionado.getPatrocinio()) {
+            double contrib = 0;
+            
+            Object[] valores = { 
+                patrocinio.getPatrocinador(), 
+                patrocinio.getContribuicao(),
+                "editar",
+                patrocinio
+            };
+            model.addRow(valores);
+        }
+        
+        Action edit = new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf( e.getActionCommand() );
+                Patrocinio editar = (Patrocinio)((DefaultTableModel)table.getModel()).getValueAt(modelRow, 3);
+                editarPatrocinio(editar, selecionado);
+            }
+        };
+        
+        patrocinadoresTable.setModel(model);
+        
+        //esconder coluna com a instancia
+        patrocinadoresTable.getColumnModel().getColumn(3).setWidth(0);
+        patrocinadoresTable.getColumnModel().getColumn(3).setMinWidth(0);
+        patrocinadoresTable.getColumnModel().getColumn(3).setMaxWidth(0);
+        
+        ButtonColumn buttonColumn = new ButtonColumn(patrocinadoresTable, edit, 2);
+        buttonColumn.setMnemonic(KeyEvent.VK_D);
+    }
+    
     private void editarFestival(Festival festival) {
         NovoFestival novoFestival = new NovoFestival(this, fest, festival);
         novoFestival.setLocationRelativeTo(null);
@@ -171,6 +217,14 @@ public class Menu extends JFrame {
         
         this.setVisible(false);
         colaboradorForm.setVisible(true);
+    }
+    
+    private void editarPatrocinio(Patrocinio patrocinio, Festival pai) {
+        NovoPatrocinador novoPatrocinador = new NovoPatrocinador(this, fest, patrocinio, pai);
+        novoPatrocinador.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+        novoPatrocinador.setVisible(true);
     }
     
     public void terminar() {
@@ -208,10 +262,10 @@ public class Menu extends JFrame {
         colaboradoresTable = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         PFEStivalLabel = new javax.swing.JLabel();
-        PatrocinioComboBox1 = new javax.swing.JComboBox<>();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        patrocinadoresList = new javax.swing.JList<>();
+        comboBoxPatrocinadores = new javax.swing.JComboBox<>();
         PtextoLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        patrocinadoresTable = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         ComboBoxGD = new javax.swing.JComboBox<>();
@@ -298,7 +352,7 @@ public class Menu extends JFrame {
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Menu", jPanel2);
@@ -366,7 +420,7 @@ public class Menu extends JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ColaboradoresLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
@@ -377,7 +431,7 @@ public class Menu extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -385,16 +439,17 @@ public class Menu extends JFrame {
 
         PFEStivalLabel.setText("Festivais:");
 
-        PatrocinioComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        patrocinadoresList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        comboBoxPatrocinadores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxPatrocinadores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxPatrocinadoresActionPerformed(evt);
+            }
         });
-        jScrollPane3.setViewportView(patrocinadoresList);
 
         PtextoLabel1.setText("Os patrocinadores deste festival são:");
+
+        patrocinadoresTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(patrocinadoresTable);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -403,12 +458,13 @@ public class Menu extends JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(PFEStivalLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(PatrocinioComboBox1, 0, 77, Short.MAX_VALUE))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(78, Short.MAX_VALUE))
+                    .addComponent(PFEStivalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboBoxPatrocinadores, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -416,12 +472,12 @@ public class Menu extends JFrame {
                 .addContainerGap()
                 .addComponent(PFEStivalLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PatrocinioComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30)
+                .addComponent(comboBoxPatrocinadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(140, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Patrocinadores", jPanel5);
@@ -434,7 +490,7 @@ public class Menu extends JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGap(0, 554, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Bilhetes", jPanel6);
@@ -476,7 +532,7 @@ public class Menu extends JFrame {
                 .addComponent(ComboBoxGD, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(GameDesignersLista, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
+                .addContainerGap(223, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Game Designers", jPanel4);
@@ -492,7 +548,7 @@ public class Menu extends JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -526,7 +582,7 @@ public class Menu extends JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        NovoPatrocinador novoPatrocinador = new NovoPatrocinador(this);
+        NovoPatrocinador novoPatrocinador = new NovoPatrocinador(this, fest);
         novoPatrocinador.setLocationRelativeTo(null);
         
         this.setVisible(false);
@@ -556,6 +612,10 @@ public class Menu extends JFrame {
     private void ComboBoxColaboradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxColaboradoresActionPerformed
         refreshListaColaboradores();
     }//GEN-LAST:event_ComboBoxColaboradoresActionPerformed
+
+    private void comboBoxPatrocinadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPatrocinadoresActionPerformed
+        refreshListaPatrocinadores();
+    }//GEN-LAST:event_comboBoxPatrocinadoresActionPerformed
 
 
 
@@ -603,9 +663,9 @@ public class Menu extends JFrame {
     private javax.swing.JScrollPane GameDesignersLista;
     private javax.swing.JList<String> ListGD;
     private javax.swing.JLabel PFEStivalLabel;
-    private javax.swing.JComboBox<String> PatrocinioComboBox1;
     private javax.swing.JLabel PtextoLabel1;
     private javax.swing.JTable colaboradoresTable;
+    private javax.swing.JComboBox<String> comboBoxPatrocinadores;
     private javax.swing.JTable festivaisTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -620,9 +680,9 @@ public class Menu extends JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JList<String> patrocinadoresList;
+    private javax.swing.JTable patrocinadoresTable;
     // End of variables declaration//GEN-END:variables
 }

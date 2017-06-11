@@ -5,6 +5,11 @@
  */
 package frontend;
 
+import backend.Festival;
+import backend.Patrocinio;
+import java.util.List;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -16,24 +21,61 @@ import javax.swing.SpinnerNumberModel;
 public class NovoPatrocinador extends JFrame {
 
     
-    private JFrame anterior;
+    private Menu anterior;
+    private List<Festival> festivais;
+    private Patrocinio patrocinio;
+    private Festival festival;
     /**
      * Creates new form NewJFrame
      */
     public NovoPatrocinador() {
         initComponents();
-        jSpinner1.setModel(new SpinnerNumberModel(1,0,100,1));
+        contribuicaoPatrocinioInput.setModel(new SpinnerNumberModel(1,0,100,1));
     }
     
-    public NovoPatrocinador(JFrame anterior){
+    public NovoPatrocinador(Menu anterior){
         
         initComponents();
         
         this.anterior = anterior;
-        jSpinner1.setModel(new SpinnerNumberModel(1,0,100,1));
+        contribuicaoPatrocinioInput.setModel(new SpinnerNumberModel(1,0,100,1));
     }
     
-    public void setAnterior(JFrame anterior){
+    public NovoPatrocinador(Menu menu, List<Festival> fest) {
+        initComponents();
+        this.anterior = menu;
+        this.festivais = fest;
+        
+        ComboBoxModel comboModel = new DefaultComboBoxModel(fest.toArray());
+        
+        patrocinioFestivalCombo.setModel(comboModel);
+    }
+    
+    public NovoPatrocinador(Menu menu, List<Festival> fest, Patrocinio patrocinio, Festival festival) {
+        initComponents();
+        this.anterior = menu;
+        this.festivais = fest;
+        this.patrocinio = patrocinio;
+        this.festival = festival;
+        
+        ComboBoxModel comboModel = new DefaultComboBoxModel(fest.toArray());
+        
+        patrocinioFestivalCombo.setModel(comboModel);
+        
+        patrocinioFestivalCombo.setEnabled(false);
+        
+        preenchePatrocinio();
+    }
+    
+    public void preenchePatrocinio() {
+        nomePatrocinioInput.setText(patrocinio.getPatrocinador());
+        contribuicaoPatrocinioInput.setValue(patrocinio.getContribuicao());
+        
+        patrocinioFestivalCombo.setSelectedItem(festival);
+        patrocinioFestivalCombo.setEditable(false);        
+    }
+    
+    public void setAnterior(Menu anterior){
         this.anterior = anterior;
         
     }
@@ -49,12 +91,12 @@ public class NovoPatrocinador extends JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        nomePatrocinioInput = new javax.swing.JTextField();
+        patrocinioFestivalCombo = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        guardarPatrocinio = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
+        contribuicaoPatrocinioInput = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,28 +106,33 @@ public class NovoPatrocinador extends JFrame {
 
         jLabel3.setText("Registar Novo Patrocinador");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        patrocinioFestivalCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        patrocinioFestivalCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                patrocinioFestivalComboActionPerformed(evt);
             }
         });
 
         jLabel4.setText("Festival:");
 
-        jButton1.setText("Gravar");
+        guardarPatrocinio.setText("Gravar");
+        guardarPatrocinio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarPatrocinioActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Sair");
+        jButton2.setText("Voltar");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jSpinner1.setEditor(new javax.swing.JSpinner.NumberEditor(jSpinner1, ""));
-        jSpinner1.addChangeListener(new javax.swing.event.ChangeListener() {
+        contribuicaoPatrocinioInput.setEditor(new javax.swing.JSpinner.NumberEditor(contribuicaoPatrocinioInput, ""));
+        contribuicaoPatrocinioInput.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                jSpinner1StateChanged(evt);
+                contribuicaoPatrocinioInputStateChanged(evt);
             }
         });
 
@@ -105,13 +152,13 @@ public class NovoPatrocinador extends JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 152, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addComponent(contribuicaoPatrocinioInput, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(patrocinioFestivalCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, 152, Short.MAX_VALUE)
+                                .addComponent(nomePatrocinioInput, javax.swing.GroupLayout.Alignment.LEADING)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGap(69, 69, 69)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(guardarPatrocinio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(62, 62, 62))))
@@ -124,18 +171,18 @@ public class NovoPatrocinador extends JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomePatrocinioInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(contribuicaoPatrocinioInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(patrocinioFestivalCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(38, 38, 38)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(guardarPatrocinio)
                     .addComponent(jButton2))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
@@ -143,13 +190,17 @@ public class NovoPatrocinador extends JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void patrocinioFestivalComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patrocinioFestivalComboActionPerformed
         
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_patrocinioFestivalComboActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       JFrame janela;
+       voltar();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void voltar() {
+        JFrame janela;
         
         if (this.anterior != null){
             janela = anterior;
@@ -161,11 +212,53 @@ public class NovoPatrocinador extends JFrame {
         
         this.setVisible(false);
         janela.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }
+    
+    private void contribuicaoPatrocinioInputStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_contribuicaoPatrocinioInputStateChanged
 
-    private void jSpinner1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner1StateChanged
+    }//GEN-LAST:event_contribuicaoPatrocinioInputStateChanged
 
-    }//GEN-LAST:event_jSpinner1StateChanged
+    private void guardarPatrocinioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarPatrocinioActionPerformed
+        Patrocinio patrocinio;
+        
+        //estamos a atualizar ou criar?
+        if (this.patrocinio != null) {
+            patrocinio = this.patrocinio;
+        }
+        else {
+            patrocinio = new Patrocinio();
+        }
+        
+        double contrib = 0;
+        
+        try {
+            Object contr = contribuicaoPatrocinioInput.getValue();
+            
+            if (contr instanceof Integer) {
+                contrib = ((Integer) contr).doubleValue();
+            }
+            else {
+                contrib = (Double) contribuicaoPatrocinioInput.getValue();
+            }
+        }
+        catch (NumberFormatException ne) {
+            System.out.println("Não foi possivel ler o numero");
+        }
+        
+        patrocinio.setPatrocinador(nomePatrocinioInput.getText());
+        patrocinio.setContribuicao(contrib);
+        
+        //Se é atualização não adiciona ao arraylist porque ja la está
+        if (this.patrocinio == null) {
+            
+            Festival f = (Festival) patrocinioFestivalCombo.getSelectedItem();
+            f.getPatrocinio().add(patrocinio);
+        }
+        
+        anterior.refreshListaPatrocinadores();
+                
+        voltar();        
+    }//GEN-LAST:event_guardarPatrocinioActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,14 +297,14 @@ public class NovoPatrocinador extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JSpinner contribuicaoPatrocinioInput;
+    private javax.swing.JButton guardarPatrocinio;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField nomePatrocinioInput;
+    private javax.swing.JComboBox<String> patrocinioFestivalCombo;
     // End of variables declaration//GEN-END:variables
 }
