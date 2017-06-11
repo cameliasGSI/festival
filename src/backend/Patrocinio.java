@@ -1,6 +1,6 @@
 package backend;
 
-public class Patrocinio {
+public class Patrocinio implements java.io.Serializable {
     private String patrocinador;
     private double contribuicao;
     

@@ -6,11 +6,18 @@
 package frontend;
 
 import backend.Festival;
+import backend.Colaborador;
+import backend.ColaboradorPago;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,6 +48,13 @@ public class Menu extends JFrame {
         refreshListaFestivais();
     }
     
+    public Menu(JFrame anterior) {
+        
+        this.anterior = anterior;
+        
+        initComponents();
+    }
+    
     public void refreshListaFestivais() {
         DefaultTableModel model = new DefaultTableModel();
 
@@ -48,13 +62,15 @@ public class Menu extends JFrame {
         String[] cols = {"Nome","Local", "Data inicio", "Data fim", "Lotação", "", ""};
         model.setColumnIdentifiers(cols);
         
+        DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        
         for (Festival festival : fest) {
             
             Object[] valores = { 
                 festival.getNome(), 
                 festival.getLocal(),
-                festival.getDataInicio().toString(),
-                festival.getDataFim().toString(),
+                formato.format(festival.getDataInicio()),
+                formato.format(festival.getDataFim()),
                 festival.getLotacao(),
                 "editar",
                 festival
@@ -82,6 +98,63 @@ public class Menu extends JFrame {
         
         ButtonColumn buttonColumn = new ButtonColumn(festivaisTable, edit, 5);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
+        
+        
+        ComboBoxModel comboModel = new DefaultComboBoxModel(fest.toArray());
+        
+        ComboBoxColaboradores.setModel(comboModel);
+    }
+    
+    public void refreshListaColaboradores() {
+        Festival selecionado = (Festival) ComboBoxColaboradores.getSelectedItem();
+        DefaultTableModel model = new DefaultTableModel();
+
+        //duas ultimas colunas sao botao editar e instancia do festival
+        String[] cols = {"Nome","Morada", "Telefone", "Função", "NIF", "Pagamento", "", ""};
+        model.setColumnIdentifiers(cols);
+        
+        for (Colaborador colaborador : selecionado.getColaboradores()) {
+            int nif = 0;
+            double pagamento = 0;
+            
+            if (colaborador instanceof ColaboradorPago) {
+                nif = ((ColaboradorPago) colaborador).getNif();
+                pagamento = ((ColaboradorPago) colaborador).getPagamento();
+            }
+            
+            Object[] valores = { 
+                colaborador.getNome(), 
+                colaborador.getMorada(),
+                colaborador.getTelefone(),
+                colaborador.getFuncao(),
+                nif,
+                pagamento,
+                "editar",
+                colaborador
+            };
+            model.addRow(valores);
+        }
+        
+        Action edit = new AbstractAction()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                JTable table = (JTable)e.getSource();
+                int modelRow = Integer.valueOf( e.getActionCommand() );
+                Colaborador editar = (Colaborador)((DefaultTableModel)table.getModel()).getValueAt(modelRow, 7);
+                editarColaborador(editar, selecionado);
+            }
+        };
+        
+        colaboradoresTable.setModel(model);
+        
+        //esconder coluna com a instancia
+        colaboradoresTable.getColumnModel().getColumn(7).setWidth(0);
+        colaboradoresTable.getColumnModel().getColumn(7).setMinWidth(0);
+        colaboradoresTable.getColumnModel().getColumn(7).setMaxWidth(0);
+        
+        ButtonColumn buttonColumn = new ButtonColumn(colaboradoresTable, edit, 6);
+        buttonColumn.setMnemonic(KeyEvent.VK_D);
     }
     
     private void editarFestival(Festival festival) {
@@ -92,15 +165,16 @@ public class Menu extends JFrame {
         novoFestival.setVisible(true);
     }
     
-    public void terminar() {
-        Arranque.terminar(fest);
+    private void editarColaborador(Colaborador colaborador, Festival pai) {
+        ColaboradorForm colaboradorForm = new ColaboradorForm(this, fest, colaborador, pai);
+        colaboradorForm.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+        colaboradorForm.setVisible(true);
     }
     
-    public Menu(JFrame anterior) {
-        
-        this.anterior = anterior;
-        
-        initComponents();
+    public void terminar() {
+        Arranque.terminar(fest);
     }
     
     public void setAnterior(JFrame anterior) {
@@ -129,9 +203,9 @@ public class Menu extends JFrame {
         festivaisTable = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         ColaboradoresLabel = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        ColaboradoresList = new javax.swing.JList<>();
         ComboBoxColaboradores = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        colaboradoresTable = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         PFEStivalLabel = new javax.swing.JLabel();
         PatrocinioComboBox1 = new javax.swing.JComboBox<>();
@@ -209,7 +283,7 @@ public class Menu extends JFrame {
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(529, Short.MAX_VALUE))
+                .addContainerGap(488, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -261,14 +335,23 @@ public class Menu extends JFrame {
 
         ColaboradoresLabel.setText("Colaboradores:");
 
-        ColaboradoresList.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(ColaboradoresList);
-
         ComboBoxColaboradores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboBoxColaboradores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboBoxColaboradoresActionPerformed(evt);
+            }
+        });
+
+        colaboradoresTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        colaboradoresTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(colaboradoresTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -277,12 +360,14 @@ public class Menu extends JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ColaboradoresLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 625, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -291,8 +376,8 @@ public class Menu extends JFrame {
                 .addComponent(ColaboradoresLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -345,7 +430,7 @@ public class Menu extends JFrame {
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 746, Short.MAX_VALUE)
+            .addGap(0, 730, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,7 +465,7 @@ public class Menu extends JFrame {
                     .addComponent(GameDesignersLista, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ComboBoxGD, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(GDlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(322, Short.MAX_VALUE))
+                .addContainerGap(312, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,7 +509,7 @@ public class Menu extends JFrame {
 
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        Colaborador colaborador = new Colaborador(this);
+        ColaboradorForm colaborador = new ColaboradorForm(this, fest);
         colaborador.setLocationRelativeTo(null);
         
         this.setVisible(false);
@@ -468,6 +553,10 @@ public class Menu extends JFrame {
         terminar();
     }//GEN-LAST:event_formWindowClosing
 
+    private void ComboBoxColaboradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxColaboradoresActionPerformed
+        refreshListaColaboradores();
+    }//GEN-LAST:event_ComboBoxColaboradoresActionPerformed
+
 
 
 
@@ -508,7 +597,6 @@ public class Menu extends JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel ColaboradoresLabel;
-    private javax.swing.JList<String> ColaboradoresList;
     private javax.swing.JComboBox<String> ComboBoxColaboradores;
     private javax.swing.JComboBox<String> ComboBoxGD;
     private javax.swing.JLabel GDlabel;
@@ -517,6 +605,7 @@ public class Menu extends JFrame {
     private javax.swing.JLabel PFEStivalLabel;
     private javax.swing.JComboBox<String> PatrocinioComboBox1;
     private javax.swing.JLabel PtextoLabel1;
+    private javax.swing.JTable colaboradoresTable;
     private javax.swing.JTable festivaisTable;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -530,7 +619,7 @@ public class Menu extends JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;

@@ -1,10 +1,13 @@
 package backend;
 
-public class Colaborador {
+public class Colaborador implements java.io.Serializable{
 private String nome;
 private String morada;
 private int telefone;
 private String funcao;
+
+public Colaborador(){
+}
 
 public Colaborador(String nome, String morada, String funcao, int telefone){
     this.nome=nome;

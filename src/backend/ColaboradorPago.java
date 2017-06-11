@@ -1,32 +1,36 @@
 package backend;
 
-public class ColaboradorPago extends Colaborador{
+public class ColaboradorPago extends Colaborador implements java.io.Serializable {
     
     private int nif;
     private double pagamento;
+ 
+    public ColaboradorPago(){
+        super();
+    }
     
-public ColaboradorPago(String nome, String morada, String funcao, int telefone, int nif, double pagamento){
-    super(nome, morada, funcao, telefone);
-    this.nif = nif;
-    this.pagamento = pagamento;
-}
-    
-//Seletores
-public double getPagamento(){
-  return pagamento;  
-}
+    public ColaboradorPago(String nome, String morada, String funcao, int telefone, int nif, double pagamento){
+        super(nome, morada, funcao, telefone);
+        this.nif = nif;
+        this.pagamento = pagamento;
+    }
 
-public int getNif(){
-  return nif;
-}
+    //Seletores
+    public double getPagamento(){
+      return pagamento;  
+    }
 
-//modificadores
+    public int getNif(){
+      return nif;
+    }
 
-public void setNif(int nif){
-    this.nif = nif;
-}
-    
-public void setPagamento(double pagamento){
-    this.pagamento = pagamento;
-}
+    //modificadores
+
+    public void setNif(int nif){
+        this.nif = nif;
+    }
+
+    public void setPagamento(double pagamento){
+        this.pagamento = pagamento;
+    }
 }

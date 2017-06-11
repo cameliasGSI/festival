@@ -2,7 +2,7 @@ package backend;
 
 import java.util.Date;
 
-public class Bilhete {
+public class Bilhete implements java.io.Serializable {
     private Date data;
     private int numero;
     private double preco;

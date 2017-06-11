@@ -5,7 +5,7 @@ import java.util.Date;
 
 
 
-public class GameDesigners {
+public class GameDesigners implements java.io.Serializable {
     private String nome;
     private int telefone;
     private int cache;
