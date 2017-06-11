@@ -18,7 +18,7 @@ import javax.swing.JFrame;
  *
  * @author Miguel
  */
-public class ColaboradorForm extends javax.swing.JFrame {
+public class ColaboradorForm extends JFrame {
 
     private Menu anterior;
     private List<Festival> festivais;
