@@ -318,14 +318,14 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="PFEStivalLabel" min="-2" pref="77" max="-2" attributes="0"/>
                           <Component id="PtextoLabel1" alignment="0" min="-2" pref="227" max="-2" attributes="0"/>
                           <Component id="comboBoxPatrocinadores" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                          <Component id="PFEStivalLabel" alignment="0" min="-2" pref="115" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane2" pref="724" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="734" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -341,7 +341,7 @@
                       <Component id="PtextoLabel1" min="-2" pref="27" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="56" max="32767" attributes="0"/>
+                      <EmptySpace pref="69" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -349,7 +349,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="PFEStivalLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Festivais:"/>
+                <Property name="text" type="java.lang.String" value="Patrocinadores:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JComboBox" name="comboBoxPatrocinadores">
@@ -483,7 +483,7 @@
             </Container>
           </SubComponents>
         </Container>
-        <Container class="javax.swing.JPanel" name="jPanel6">
+        <Container class="javax.swing.JPanel" name="valorRbilhetesPanel6">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Balan&#xe7;o">
@@ -495,15 +495,140 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="730" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="BalancoLabel1" min="-2" pref="160" max="-2" attributes="0"/>
+                          <Component id="fbalancoComboBox1" min="-2" pref="124" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="RpatrocinioLabel4" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="RBilhetesLabel3" alignment="0" min="-2" pref="124" max="-2" attributes="0"/>
+                                      <Component id="cgdLabel6" alignment="0" pref="148" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Component id="BTotalLabel8" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
+                                  <Component id="maflluencia" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="valorcgdjLabel7" max="32767" attributes="0"/>
+                                  <Component id="valorRpatrocinios" max="32767" attributes="0"/>
+                                  <Component id="valorrbilhetes" max="32767" attributes="0"/>
+                                  <Component id="valorBTotalLabel9" max="32767" attributes="0"/>
+                                  <Component id="valormafluencia" pref="160" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                      <EmptySpace pref="394" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="554" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="BalancoLabel1" min="-2" pref="25" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="fbalancoComboBox1" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="RBilhetesLabel3" min="-2" pref="29" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="RpatrocinioLabel4" min="-2" pref="22" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="valorrbilhetes" min="-2" pref="25" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="valorRpatrocinios" min="-2" pref="27" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="cgdLabel6" min="-2" pref="27" max="-2" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Component id="valorcgdjLabel7" max="32767" attributes="0"/>
+                              <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="valorBTotalLabel9" max="32767" attributes="0"/>
+                              <EmptySpace min="7" pref="7" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="BTotalLabel8" min="-2" pref="30" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="maflluencia" min="-2" max="-2" attributes="0"/>
+                          <Component id="valormafluencia" min="-2" pref="23" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace pref="300" max="32767" attributes="0"/>
+                  </Group>
               </Group>
             </DimensionLayout>
           </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="BalancoLabel1">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Balan&#xe7;o:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="valorrbilhetes">
+            </Component>
+            <Component class="javax.swing.JLabel" name="RBilhetesLabel3">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Receita bilhetes:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="RpatrocinioLabel4">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Receita dos patrocinios:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="valorRpatrocinios">
+            </Component>
+            <Component class="javax.swing.JLabel" name="cgdLabel6">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Custos Game Designers:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="fbalancoComboBox1">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="fbalancoComboBox1ActionPerformed"/>
+              </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JLabel" name="valorcgdjLabel7">
+            </Component>
+            <Component class="javax.swing.JLabel" name="BTotalLabel8">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Balan&#xe7;o total:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="valorBTotalLabel9">
+            </Component>
+            <Component class="javax.swing.JLabel" name="maflluencia">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="dia de maior afluencia:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="valormafluencia">
+            </Component>
+          </SubComponents>
         </Container>
       </SubComponents>
     </Container>

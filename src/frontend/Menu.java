@@ -5,6 +5,7 @@
  */
 package frontend;
 
+import backend.Bilhete;
 import backend.Festival;
 import backend.Colaborador;
 import backend.ColaboradorPago;
@@ -13,9 +14,15 @@ import backend.Patrocinio;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ComboBoxModel;
@@ -51,6 +58,7 @@ public class Menu extends JFrame {
         refreshListaColaboradores();
         refreshListaPatrocinadores();
         refreshListaGameDesigners();
+        refreshBalanco();
     }
     
     public Menu(JFrame anterior) {
@@ -110,6 +118,7 @@ public class Menu extends JFrame {
         ComboBoxColaboradores.setModel(comboModel);
         comboBoxPatrocinadores.setModel(comboModel);
         comboBoxGameDesigners.setModel(comboModel);
+        fbalancoComboBox1.setModel(comboModel);
     }
     
     public void refreshListaColaboradores() {
@@ -258,6 +267,115 @@ public class Menu extends JFrame {
         buttonColumn.setMnemonic(KeyEvent.VK_D);
     }
     
+    private void refreshBalanco() {
+        Festival selecionado = (Festival) fbalancoComboBox1.getSelectedItem();
+        DateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        
+        int rb = receitaBilhetes(selecionado);
+        int rp = receitaPatrocinios(selecionado);
+        int cg = custosGameDesigners(selecionado);
+        int cc = custoColaboradores(selecionado);
+        int total = (rb + rp - cg - cc);
+        String desc = "Lucro";
+        
+        if (total < 0) {
+            desc = "Prejuizo";
+        }
+        
+        valorrbilhetes.setText("" + rb);
+        valorRpatrocinios.setText("" + rp);
+        valorcgdjLabel7.setText("" + cg);
+        valorBTotalLabel9.setText("" +total + " " + desc );
+        
+        Date diaMaior = diaMaiorAfluencia(selecionado);
+        
+        if (diaMaior != null) {
+            valormafluencia.setText(formato.format(diaMaior));
+        }
+        else {
+            valormafluencia.setText("");
+        }
+    }
+    
+    private int receitaBilhetes(Festival festival) {
+       int rb = 0;
+       
+        for(Bilhete b : festival.getBilhetes() ){
+            rb +=( b.getPreço() );
+        }
+        
+        return rb;
+    }
+    
+    private int receitaPatrocinios(Festival festival) {
+        int rp = 0;
+        
+        for(Patrocinio p : festival.getPatrocinio()){
+            rp += (p.getContribuicao());
+        }
+        return rp;
+    }
+    
+    private int custosGameDesigners(Festival festival) {
+        int cg = 0;
+        
+        for(GameDesigners g : festival.getGameDesigners()){
+            cg += (g.getCache());
+        }
+        return cg;
+    }
+    
+    private int custoColaboradores(Festival festival) {
+        int cc = 0;
+        
+        for(Colaborador c : festival.getColaboradores()){
+            if (c instanceof ColaboradorPago) {
+                cc += (((ColaboradorPago) c).getPagamento());
+            }
+            else cc += 0;
+                        
+                        
+        }
+        
+        return cc;
+    }
+    
+    private Date diaMaiorAfluencia(Festival festival){
+        Map<String, Integer> dias = new HashMap<String, Integer>();
+        DateFormat formato = new SimpleDateFormat("ddMMyyyy");
+        int max = 0;
+        String maior = null;
+        
+        if (!festival.getBilhetes().isEmpty()) {
+            for(Bilhete b : festival.getBilhetes()){
+                String key = formato.format(b.getData());
+
+                if(dias.containsKey(key)) {
+                    int current = dias.get(key);
+                    dias.put(key, ++current);
+                }
+                else {
+                    dias.put(key, 1);
+                }
+            }
+
+            for(String data : dias.keySet()) {
+                if (dias.get(data) > max) {
+                    max = dias.get(data);
+                    maior = data;
+                }
+            }
+
+            try {
+                return formato.parse(maior);
+            } catch (ParseException ex) {
+                System.out.println("Nao conseguiu calcular o dia");
+            }
+        }
+        
+        return null;
+    }
+    
     private void editarFestival(Festival festival) {
         NovoFestival novoFestival = new NovoFestival(this, fest, festival);
         novoFestival.setLocationRelativeTo(null);
@@ -334,7 +452,19 @@ public class Menu extends JFrame {
         GDlabel = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         gameDesignersTable = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
+        valorRbilhetesPanel6 = new javax.swing.JPanel();
+        BalancoLabel1 = new javax.swing.JLabel();
+        valorrbilhetes = new javax.swing.JLabel();
+        RBilhetesLabel3 = new javax.swing.JLabel();
+        RpatrocinioLabel4 = new javax.swing.JLabel();
+        valorRpatrocinios = new javax.swing.JLabel();
+        cgdLabel6 = new javax.swing.JLabel();
+        fbalancoComboBox1 = new javax.swing.JComboBox<>();
+        valorcgdjLabel7 = new javax.swing.JLabel();
+        BTotalLabel8 = new javax.swing.JLabel();
+        valorBTotalLabel9 = new javax.swing.JLabel();
+        maflluencia = new javax.swing.JLabel();
+        valormafluencia = new javax.swing.JLabel();
 
         jMenu1.setText("jMenu1");
 
@@ -500,7 +630,7 @@ public class Menu extends JFrame {
 
         jTabbedPane1.addTab("Colaboradores", jPanel3);
 
-        PFEStivalLabel.setText("Festivais:");
+        PFEStivalLabel.setText("Patrocinadores:");
 
         comboBoxPatrocinadores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboBoxPatrocinadores.addActionListener(new java.awt.event.ActionListener() {
@@ -521,12 +651,12 @@ public class Menu extends JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PFEStivalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboBoxPatrocinadores, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboBoxPatrocinadores, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(PFEStivalLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 724, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 734, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -540,7 +670,7 @@ public class Menu extends JFrame {
                 .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(69, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Patrocinadores", jPanel5);
@@ -586,18 +716,87 @@ public class Menu extends JFrame {
 
         jTabbedPane1.addTab("Game Designers", jPanel4);
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 730, Short.MAX_VALUE)
+        BalancoLabel1.setText("Balanço:");
+
+        RBilhetesLabel3.setText("Receita bilhetes:");
+
+        RpatrocinioLabel4.setText("Receita dos patrocinios:");
+
+        cgdLabel6.setText("Custos Game Designers:");
+
+        fbalancoComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        fbalancoComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fbalancoComboBox1ActionPerformed(evt);
+            }
+        });
+
+        BTotalLabel8.setText("Balanço total:");
+
+        maflluencia.setText("dia de maior afluencia:");
+
+        javax.swing.GroupLayout valorRbilhetesPanel6Layout = new javax.swing.GroupLayout(valorRbilhetesPanel6);
+        valorRbilhetesPanel6.setLayout(valorRbilhetesPanel6Layout);
+        valorRbilhetesPanel6Layout.setHorizontalGroup(
+            valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(valorRbilhetesPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BalancoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fbalancoComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(valorRbilhetesPanel6Layout.createSequentialGroup()
+                        .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(RpatrocinioLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(RBilhetesLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cgdLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+                            .addComponent(BTotalLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(maflluencia, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(32, 32, 32)
+                        .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(valorcgdjLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valorRpatrocinios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valorrbilhetes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valorBTotalLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(valormafluencia, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))))
+                .addContainerGap(394, Short.MAX_VALUE))
         );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+        valorRbilhetesPanel6Layout.setVerticalGroup(
+            valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(valorRbilhetesPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(valorRbilhetesPanel6Layout.createSequentialGroup()
+                        .addComponent(BalancoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(fbalancoComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(35, 35, 35)
+                        .addComponent(RBilhetesLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(RpatrocinioLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(valorRbilhetesPanel6Layout.createSequentialGroup()
+                        .addComponent(valorrbilhetes, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(valorRpatrocinios, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cgdLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(valorRbilhetesPanel6Layout.createSequentialGroup()
+                        .addComponent(valorcgdjLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(6, 6, 6)))
+                .addGap(6, 6, 6)
+                .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(valorRbilhetesPanel6Layout.createSequentialGroup()
+                        .addComponent(valorBTotalLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(7, 7, 7))
+                    .addComponent(BTotalLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(valorRbilhetesPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(maflluencia)
+                    .addComponent(valormafluencia, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(300, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Balanço", jPanel6);
+        jTabbedPane1.addTab("Balanço", valorRbilhetesPanel6);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -659,7 +858,7 @@ public class Menu extends JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void comboBoxGameDesignersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxGameDesignersActionPerformed
-        refreshListaGameDesigners();
+       
     }//GEN-LAST:event_comboBoxGameDesignersActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -677,6 +876,10 @@ public class Menu extends JFrame {
     private void comboBoxPatrocinadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPatrocinadoresActionPerformed
         refreshListaPatrocinadores();
     }//GEN-LAST:event_comboBoxPatrocinadoresActionPerformed
+
+    private void fbalancoComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fbalancoComboBox1ActionPerformed
+        refreshBalanco();
+    }//GEN-LAST:event_fbalancoComboBox1ActionPerformed
 
 
 
@@ -717,14 +920,20 @@ public class Menu extends JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel BTotalLabel8;
+    private javax.swing.JLabel BalancoLabel1;
     private javax.swing.JLabel ColaboradoresLabel;
     private javax.swing.JComboBox<String> ComboBoxColaboradores;
     private javax.swing.JLabel GDlabel;
     private javax.swing.JLabel PFEStivalLabel;
     private javax.swing.JLabel PtextoLabel1;
+    private javax.swing.JLabel RBilhetesLabel3;
+    private javax.swing.JLabel RpatrocinioLabel4;
+    private javax.swing.JLabel cgdLabel6;
     private javax.swing.JTable colaboradoresTable;
     private javax.swing.JComboBox<String> comboBoxGameDesigners;
     private javax.swing.JComboBox<String> comboBoxPatrocinadores;
+    private javax.swing.JComboBox<String> fbalancoComboBox1;
     private javax.swing.JTable festivaisTable;
     private javax.swing.JTable gameDesignersTable;
     private javax.swing.JButton jButton1;
@@ -738,12 +947,20 @@ public class Menu extends JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel maflluencia;
     private javax.swing.JTable patrocinadoresTable;
+    private javax.swing.JLabel valorBTotalLabel9;
+    private javax.swing.JPanel valorRbilhetesPanel6;
+    private javax.swing.JLabel valorRpatrocinios;
+    private javax.swing.JLabel valorcgdjLabel7;
+    private javax.swing.JLabel valormafluencia;
+    private javax.swing.JLabel valorrbilhetes;
     // End of variables declaration//GEN-END:variables
 }
+
+
