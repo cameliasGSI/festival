@@ -10,15 +10,17 @@ public class GameDesigners implements java.io.Serializable {
     private int telefone;
     private double cache;
     private Date diaHora;
+    private String jogo;
 
     public GameDesigners() {
     }
     
-    public GameDesigners(String nome, int telefone, int cache, Date diaHora) {
+    public GameDesigners(String nome, int telefone, int cache, Date diaHora, String jogo) {
         this.nome = nome;
         this.telefone = telefone;
         this.cache = cache;
         this.diaHora = diaHora;
+        this.jogo=jogo;
     }
       
 
@@ -52,5 +54,12 @@ public class GameDesigners implements java.io.Serializable {
 
     public void setDiaHora(Date diaHora) {
         this.diaHora = diaHora;
-    }    
+    }
+       public String getJogo(){
+        return jogo;
+    }
+    public void setJogo(String jogo){
+        this.jogo=jogo;
+    }   
+       
 }

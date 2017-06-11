@@ -51,6 +51,9 @@ public class Menu extends JFrame {
         refreshListaColaboradores();
         refreshListaPatrocinadores();
         refreshListaGameDesigners();
+        
+        patrocinadoresTable.setAutoCreateRowSorter(true);
+        gameDesignersTable.setAutoCreateRowSorter(true);
     }
     
     public Menu(JFrame anterior) {
@@ -216,8 +219,9 @@ public class Menu extends JFrame {
 
         DateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         
+        
         //duas ultimas colunas sao botao editar e instancia do festival
-        String[] cols = {"Nome","Telefone", "Cachê", "Data Sessão", "", ""};
+        String[] cols = {"Nome","Telefone", "Cachê","Data Sessão","Jogo", "", ""};
         model.setColumnIdentifiers(cols);
         
         if (selecionado != null) {
@@ -229,6 +233,7 @@ public class Menu extends JFrame {
                     gameDesigner.getTelefone(),
                     gameDesigner.getCache(),
                     formato.format(gameDesigner.getDiaHora()),
+                    gameDesigner.getJogo(),
                     "editar",
                     gameDesigner
                 };
@@ -242,7 +247,7 @@ public class Menu extends JFrame {
             {
                 JTable table = (JTable)e.getSource();
                 int modelRow = Integer.valueOf( e.getActionCommand() );
-                GameDesigners editar = (GameDesigners)((DefaultTableModel)table.getModel()).getValueAt(modelRow, 5);
+                GameDesigners editar = (GameDesigners)((DefaultTableModel)table.getModel()).getValueAt(modelRow, 6);
                 editarGameDesigner(editar, selecionado);
             }
         };
@@ -250,12 +255,14 @@ public class Menu extends JFrame {
         gameDesignersTable.setModel(model);
         
         //esconder coluna com a instancia
-        gameDesignersTable.getColumnModel().getColumn(5).setWidth(0);
-        gameDesignersTable.getColumnModel().getColumn(5).setMinWidth(0);
-        gameDesignersTable.getColumnModel().getColumn(5).setMaxWidth(0);
+        gameDesignersTable.getColumnModel().getColumn(6).setWidth(0);
+        gameDesignersTable.getColumnModel().getColumn(6).setMinWidth(0);
+        gameDesignersTable.getColumnModel().getColumn(6).setMaxWidth(0);
         
-        ButtonColumn buttonColumn = new ButtonColumn(gameDesignersTable, edit, 4);
+        ButtonColumn buttonColumn = new ButtonColumn(gameDesignersTable, edit, 5);
         buttonColumn.setMnemonic(KeyEvent.VK_D);
+        
+        totalGameDesigners.setText("" + selecionado.getGameDesigners().size());
     }
     
     private void editarFestival(Festival festival) {
@@ -334,6 +341,8 @@ public class Menu extends JFrame {
         GDlabel = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         gameDesignersTable = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        totalGameDesigners = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
 
         jMenu1.setText("jMenu1");
@@ -415,7 +424,7 @@ public class Menu extends JFrame {
                 .addComponent(jButton4)
                 .addGap(18, 18, 18)
                 .addComponent(jButton5)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addContainerGap(334, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Menu", jPanel2);
@@ -494,7 +503,7 @@ public class Menu extends JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ComboBoxColaboradores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -540,7 +549,7 @@ public class Menu extends JFrame {
                 .addComponent(PtextoLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Patrocinadores", jPanel5);
@@ -557,6 +566,8 @@ public class Menu extends JFrame {
         gameDesignersTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(gameDesignersTable);
 
+        jLabel1.setText("Total de Game Designers:");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -564,13 +575,19 @@ public class Menu extends JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(GDlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(comboBoxGameDesigners, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalGameDesigners, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,7 +598,11 @@ public class Menu extends JFrame {
                 .addComponent(comboBoxGameDesigners, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 31, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(totalGameDesigners, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(86, 86, 86))
         );
 
         jTabbedPane1.addTab("Game Designers", jPanel4);
@@ -594,7 +615,7 @@ public class Menu extends JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 554, Short.MAX_VALUE)
+            .addGap(0, 611, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Balanço", jPanel6);
@@ -603,10 +624,10 @@ public class Menu extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(26, 26, 26)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 751, Short.MAX_VALUE)
-                .addGap(26, 26, 26))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -626,42 +647,6 @@ public class Menu extends JFrame {
     }                                                                              
 
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ColaboradorForm colaborador = new ColaboradorForm(this, fest);
-        colaborador.setLocationRelativeTo(null);
-        
-        this.setVisible(false);
-        colaborador.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        GameDesigner gameDesigner = new GameDesigner(this, fest);
-        gameDesigner.setLocationRelativeTo(null);
-        
-        this.setVisible(false);
-        gameDesigner.setVisible(true);
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        NovoPatrocinador novoPatrocinador = new NovoPatrocinador(this, fest);
-        novoPatrocinador.setLocationRelativeTo(null);
-        
-        this.setVisible(false);
-        novoPatrocinador.setVisible(true);
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        GestaoBilhetes novoGerirBilhetes = new GestaoBilhetes(this, fest);
-        novoGerirBilhetes.setLocationRelativeTo(null);
-        
-        this.setVisible(false);
-        novoGerirBilhetes.setVisible(true);
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void comboBoxGameDesignersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxGameDesignersActionPerformed
-        refreshListaGameDesigners();
-    }//GEN-LAST:event_comboBoxGameDesignersActionPerformed
-
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
 
     }//GEN-LAST:event_formWindowClosed
@@ -670,13 +655,49 @@ public class Menu extends JFrame {
         terminar();
     }//GEN-LAST:event_formWindowClosing
 
-    private void ComboBoxColaboradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxColaboradoresActionPerformed
-        refreshListaColaboradores();
-    }//GEN-LAST:event_ComboBoxColaboradoresActionPerformed
+    private void comboBoxGameDesignersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxGameDesignersActionPerformed
+        refreshListaGameDesigners();
+    }//GEN-LAST:event_comboBoxGameDesignersActionPerformed
 
     private void comboBoxPatrocinadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxPatrocinadoresActionPerformed
         refreshListaPatrocinadores();
     }//GEN-LAST:event_comboBoxPatrocinadoresActionPerformed
+
+    private void ComboBoxColaboradoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBoxColaboradoresActionPerformed
+        refreshListaColaboradores();
+    }//GEN-LAST:event_ComboBoxColaboradoresActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        GestaoBilhetes novoGerirBilhetes = new GestaoBilhetes(this, fest);
+        novoGerirBilhetes.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+        novoGerirBilhetes.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        NovoPatrocinador novoPatrocinador = new NovoPatrocinador(this, fest);
+        novoPatrocinador.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+        novoPatrocinador.setVisible(true);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        GameDesigner gameDesigner = new GameDesigner(this, fest);
+        gameDesigner.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+        gameDesigner.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        ColaboradorForm colaborador = new ColaboradorForm(this, fest);
+        colaborador.setLocationRelativeTo(null);
+
+        this.setVisible(false);
+        colaborador.setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
 
 
@@ -732,6 +753,7 @@ public class Menu extends JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -745,5 +767,6 @@ public class Menu extends JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable patrocinadoresTable;
+    private javax.swing.JLabel totalGameDesigners;
     // End of variables declaration//GEN-END:variables
 }
