@@ -137,6 +137,11 @@ public class GameDesigner extends javax.swing.JFrame {
         jLabel6.setText("Data");
 
         gameDesignerFestivalCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gameDesignerFestivalCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gameDesignerFestivalComboActionPerformed(evt);
+            }
+        });
 
         gameDesignerFestivalLabel.setText("Festival");
 
@@ -318,6 +323,10 @@ public class GameDesigner extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void gameDesignerFestivalComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameDesignerFestivalComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_gameDesignerFestivalComboActionPerformed
 
     /**
      * @param args the command line arguments

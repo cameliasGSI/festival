@@ -651,7 +651,7 @@ public class Menu extends JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        GestaoBilhetes novoGerirBilhetes = new GestaoBilhetes(this);
+        GestaoBilhetes novoGerirBilhetes = new GestaoBilhetes(this, fest);
         novoGerirBilhetes.setLocationRelativeTo(null);
         
         this.setVisible(false);

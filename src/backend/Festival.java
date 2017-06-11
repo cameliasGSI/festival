@@ -16,6 +16,7 @@ public class Festival implements java.io.Serializable {
     private ArrayList<Colaborador> colaboradores; // ou colaboradores pagos e voluntarios???
     private ArrayList<Patrocinio> patrocinios;
     private ArrayList<GameDesigners> gameDesigners;
+    private double preco = 10;
 
 
     public Festival(){
@@ -69,6 +70,14 @@ public class Festival implements java.io.Serializable {
     }
     public void setLotacao(int lotacao){
         this.lotacao = lotacao;
+    }
+    
+    public double getPreco() {
+        return preco;
+    }
+    
+    public void setPreco(double preco) {
+        this.preco = preco;
     }
 
     //4

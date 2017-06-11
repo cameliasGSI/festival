@@ -5,6 +5,10 @@
  */
 package frontend;
 
+import backend.Festival;
+import java.util.List;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 
 /**
@@ -13,7 +17,8 @@ import javax.swing.JFrame;
  */
 public class GestaoBilhetes extends javax.swing.JFrame {
 
-    private JFrame anterior;
+    private Menu anterior;
+    private List<Festival> festivais;
 
     /**
      * Creates new form GestãoBilhetes
@@ -22,11 +27,47 @@ public class GestaoBilhetes extends javax.swing.JFrame {
         initComponents();
     }
     
-     public GestaoBilhetes(JFrame anterior) {
+     public GestaoBilhetes(Menu anterior) {
         
         this.anterior = anterior;
         
         initComponents();
+    }
+     
+    public GestaoBilhetes(Menu menu, List<Festival> fest) {
+        initComponents();
+        this.anterior = menu;
+        this.festivais = fest;
+        
+        ComboBoxModel comboModel = new DefaultComboBoxModel(fest.toArray());
+        
+        comboBoxGestaoBilhetes.setModel(comboModel);
+        
+        refreshBilheteira();
+    }
+    
+    private void refreshBilheteira() {
+        Festival selecionado = (Festival) comboBoxGestaoBilhetes.getSelectedItem();
+        
+        if (selecionado != null) {
+            precoBilheteInput.setValue(selecionado.getPreco());
+            int vendidos = selecionado.getBilhetes().size();
+            bilhetesVendidosLabel.setText("" + vendidos);
+            
+            if (vendidos > 0) {
+                atualizarPreco.setEnabled(false);
+            }
+        }
+    }
+    
+    private void atualizarPreco() {
+        Festival selecionado = (Festival) comboBoxGestaoBilhetes.getSelectedItem();
+        
+        if (selecionado != null) {
+            int preco = (Integer)precoBilheteInput.getValue();
+            selecionado.setPreco(preco);
+            
+        }
     }
 
     /**
@@ -42,10 +83,12 @@ public class GestaoBilhetes extends javax.swing.JFrame {
         LabelNomeDoFestival = new javax.swing.JLabel();
         comboBoxGestaoBilhetes = new javax.swing.JComboBox<>();
         LabelBilhetesVendidos = new javax.swing.JLabel();
-        TextBilhetesVendidos = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        bilhetesVendidosLabel = new javax.swing.JLabel();
+        venderBilhetes = new javax.swing.JButton();
+        precoBilheteInput = new javax.swing.JSpinner();
+        atualizarPreco = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,10 +97,15 @@ public class GestaoBilhetes extends javax.swing.JFrame {
         LabelNomeDoFestival.setText("Nome Festival:");
 
         comboBoxGestaoBilhetes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboBoxGestaoBilhetes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboBoxGestaoBilhetesActionPerformed(evt);
+            }
+        });
 
         LabelBilhetesVendidos.setText("Bilhetes Vendidos:");
 
-        jButton1.setText("Sair");
+        jButton1.setText("Voltar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -65,6 +113,22 @@ public class GestaoBilhetes extends javax.swing.JFrame {
         });
 
         jLabel2.setText("Preço Bilhete: ");
+
+        bilhetesVendidosLabel.setText("0");
+
+        venderBilhetes.setText("Vender");
+        venderBilhetes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                venderBilhetesActionPerformed(evt);
+            }
+        });
+
+        atualizarPreco.setText("Atualizar");
+        atualizarPreco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                atualizarPrecoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -77,20 +141,26 @@ public class GestaoBilhetes extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(LabelBilhetesVendidos, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
-                            .addComponent(LabelNomeDoFestival, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LabelNomeDoFestival, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE))
+                            .addComponent(LabelBilhetesVendidos))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(comboBoxGestaoBilhetes, 0, 157, Short.MAX_VALUE)
-                            .addComponent(TextBilhetesVendidos)
-                            .addComponent(jTextField1))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(comboBoxGestaoBilhetes, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(bilhetesVendidosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(precoBilheteInput, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(atualizarPreco)))))
                 .addContainerGap(341, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(121, 121, 121))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(venderBilhetes, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(238, 238, 238))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -104,13 +174,16 @@ public class GestaoBilhetes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(LabelBilhetesVendidos, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextBilhetesVendidos, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bilhetesVendidosLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(precoBilheteInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(atualizarPreco))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(venderBilhetes))
                 .addGap(81, 81, 81))
         );
 
@@ -133,6 +206,18 @@ public class GestaoBilhetes extends javax.swing.JFrame {
         janela.setVisible(true);
         //System.exit(WIDTH);        // TODO add your handling code here:                   // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void comboBoxGestaoBilhetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboBoxGestaoBilhetesActionPerformed
+        refreshBilheteira();
+    }//GEN-LAST:event_comboBoxGestaoBilhetesActionPerformed
+
+    private void atualizarPrecoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atualizarPrecoActionPerformed
+        atualizarPreco();
+    }//GEN-LAST:event_atualizarPrecoActionPerformed
+
+    private void venderBilhetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderBilhetesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_venderBilhetesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,11 +258,13 @@ public class GestaoBilhetes extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel LabelBilhetesVendidos;
     private javax.swing.JLabel LabelNomeDoFestival;
-    private javax.swing.JTextField TextBilhetesVendidos;
+    private javax.swing.JButton atualizarPreco;
+    private javax.swing.JLabel bilhetesVendidosLabel;
     private javax.swing.JComboBox<String> comboBoxGestaoBilhetes;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JSpinner precoBilheteInput;
+    private javax.swing.JButton venderBilhetes;
     // End of variables declaration//GEN-END:variables
 }
