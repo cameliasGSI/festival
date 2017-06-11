@@ -99,6 +99,11 @@ public class NovoPatrocinador extends JFrame {
         contribuicaoPatrocinioInput = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Nome:");
 
@@ -259,6 +264,10 @@ public class NovoPatrocinador extends JFrame {
                 
         voltar();        
     }//GEN-LAST:event_guardarPatrocinioActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        anterior.terminar();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

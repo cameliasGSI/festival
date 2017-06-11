@@ -46,7 +46,7 @@ public class GestaoBilhetes extends javax.swing.JFrame {
         refreshBilheteira();
     }
     
-    private void refreshBilheteira() {
+    public void refreshBilheteira() {
         Festival selecionado = (Festival) comboBoxGestaoBilhetes.getSelectedItem();
         
         if (selecionado != null) {
@@ -56,7 +56,22 @@ public class GestaoBilhetes extends javax.swing.JFrame {
             
             if (vendidos > 0) {
                 atualizarPreco.setEnabled(false);
+                precoBilheteInput.setEnabled(false);
             }
+            else {
+                atualizarPreco.setEnabled(true);
+                precoBilheteInput.setEnabled(true);
+            }
+            
+            if (vendidos >= selecionado.getLotacao()) {
+                venderBilhetes.setEnabled(false);
+            }
+            else {
+                venderBilhetes.setEnabled(true);
+            }
+        }
+        else {
+            venderBilhetes.setEnabled(false);
         }
     }
     
@@ -68,6 +83,10 @@ public class GestaoBilhetes extends javax.swing.JFrame {
             selecionado.setPreco(preco);
             
         }
+    }
+    
+    public void terminar() {
+        anterior.terminar();
     }
 
     /**
@@ -91,6 +110,11 @@ public class GestaoBilhetes extends javax.swing.JFrame {
         atualizarPreco = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setText("Gestão Bilheiteiras");
 
@@ -149,9 +173,10 @@ public class GestaoBilhetes extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(comboBoxGestaoBilhetes, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bilhetesVendidosLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 8, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(precoBilheteInput, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(bilhetesVendidosLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(precoBilheteInput, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(atualizarPreco)))))
                 .addContainerGap(341, Short.MAX_VALUE))
@@ -216,8 +241,20 @@ public class GestaoBilhetes extends javax.swing.JFrame {
     }//GEN-LAST:event_atualizarPrecoActionPerformed
 
     private void venderBilhetesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_venderBilhetesActionPerformed
-        // TODO add your handling code here:
+        Festival selecionado = (Festival) comboBoxGestaoBilhetes.getSelectedItem();
+        
+        if (selecionado != null) {
+            VenderBilhetes venderBilhetes = new VenderBilhetes(this, selecionado);
+            venderBilhetes.setLocationRelativeTo(null);
+
+            this.setVisible(false);
+            venderBilhetes.setVisible(true);
+        }
     }//GEN-LAST:event_venderBilhetesActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        anterior.terminar();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

@@ -97,6 +97,11 @@ public class GameDesigner extends javax.swing.JFrame {
         gameDesignerFestivalLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         nomeGameDesignerInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -327,6 +332,10 @@ public class GameDesigner extends javax.swing.JFrame {
     private void gameDesignerFestivalComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gameDesignerFestivalComboActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_gameDesignerFestivalComboActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        anterior.terminar();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
